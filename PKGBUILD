@@ -68,7 +68,7 @@ _subarch=
 ### IMPORTANT: Do no edit below this line unless you know what you're doing
 pkgbase=linux-ck
 pkgname=("$pkgbase" "$pkgbase-headers")
-pkgver=6.2.7
+pkgver=6.2.8
 pkgrel=1
 arch=(x86_64)
 url="https://wiki.archlinux.org/index.php/Linux-ck"

@@ -17,3 +17,13 @@ jobs:
         echo "Successfully created the following package archives:"
         echo "${{ steps.makepkg.outputs.pkgfile0 }}"
         echo "${{ steps.makepkg.outputs.pkgfile1 }}"
+    - name: Upload Build Artifact0
+      uses: actions/upload-artifact@v3.1.2
+      with:
+        name: "${{ steps.makepkg.outputs.pkgfile0 }}"
+        path: "${{ steps.makepkg.outputs.pkgfile0 }}"
+    - name: Upload Build Artifact1
+      uses: actions/upload-artifact@v3.1.2
+      with:
+        name: "${{ steps.makepkg.outputs.pkgfile1 }}"
+        path: "${{ steps.makepkg.outputs.pkgfile1 }}"

@@ -201,7 +201,7 @@ build() {
   make LLVM=$_LLVM LLVM_IAS=$_LLVM all
 }
 
-_package_linux-ck() {
+package_linux-ck() {
   pkgdesc="The Linux kernel and modules with ck's hrtimer patches"
   depends=(coreutils initramfs kmod)
   optdepends=('linux-firmware: firmware images needed for some devices'
@@ -235,7 +235,7 @@ _package_linux-ck() {
   rm "$modulesdir"/{source,build}
 }
 
-_package_linux-ck-headers() {
+package_linux-ck-headers() {
   pkgdesc="Headers and scripts for building modules for ${pkgbase/linux/Linux} kernel"
   depends=(pahole "$pkgbase") # added to keep kernel and headers packages matched
   #groups=('ck-generic')

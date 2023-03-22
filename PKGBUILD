@@ -21,7 +21,7 @@ _clangbuild=
 # Optionally select a sub architecture by number or leave blank which will
 # require user interaction during the build. Note that the generic (default)
 # option is 36.
-_subarch=37
+_subarch=
 
 #  1. AMD Opteron/Athlon64/Hammer/K8 (MK8)
 #  2. AMD Opteron/Athlon64/Hammer/K8 with SSE3 (MK8SSE3) (NEW)
@@ -67,6 +67,7 @@ _subarch=37
 
 ### IMPORTANT: Do no edit below this line unless you know what you're doing
 pkgbase=linux-ck
+pkgname=("$pkgbase" "$pkgbase-headers")
 pkgver=6.2.7
 pkgrel=1
 arch=(x86_64)
@@ -79,7 +80,8 @@ options=('!strip')
 _gcc_more_v=20221217
 source=(
   "https://www.kernel.org/pub/linux/kernel/v6.x/linux-${pkgver}.tar.xz"
-  config  "more-uarches-${_gcc_more_v}.tar.gz::https://github.com/graysky2/kernel_compiler_patch/archive/${_gcc_more_v}.tar.gz"
+  config
+  "more-uarches-${_gcc_more_v}.tar.gz::https://github.com/graysky2/kernel_compiler_patch/archive/${_gcc_more_v}.tar.gz"
   0001-ZEN-Add-sysctl-and-CONFIG-to-disallow-unprivileged-C.patch
   ck-hrtimer-0001.patch
   ck-hrtimer-0002.patch
@@ -89,6 +91,20 @@ source=(
   ck-hrtimer-0006.patch
   ck-hrtimer-0007.patch
   ck-hrtimer-0008.patch
+)
+sha256sums=(
+  'SKIP'
+  'SKIP'
+  'SKIP'
+  'SKIP'
+  'SKIP'
+  'SKIP'
+  'SKIP'
+  'SKIP'
+  'SKIP'
+  'SKIP'
+  'SKIP'
+  'SKIP'
 )
 
 prepare() {
@@ -185,7 +201,7 @@ build() {
   make LLVM=$_LLVM LLVM_IAS=$_LLVM all
 }
 
-_package() {
+_package_linux-ck() {
   pkgdesc="The Linux kernel and modules with ck's hrtimer patches"
   depends=(coreutils initramfs kmod)
   optdepends=('linux-firmware: firmware images needed for some devices'
@@ -219,7 +235,7 @@ _package() {
   rm "$modulesdir"/{source,build}
 }
 
-_package-headers() {
+_package_linux-ck-headers() {
   pkgdesc="Headers and scripts for building modules for ${pkgbase/linux/Linux} kernel"
   depends=(pahole "$pkgbase") # added to keep kernel and headers packages matched
   #groups=('ck-generic')
@@ -302,7 +318,6 @@ _package-headers() {
   ln -sr "$builddir" "$pkgdir/usr/src/$pkgbase"
 }
 
-pkgname=("$pkgbase" "$pkgbase-headers")
 for _p in "${pkgname[@]}"; do
   eval "package_$_p() {
     $(declare -f "_package${_p#$pkgbase}")

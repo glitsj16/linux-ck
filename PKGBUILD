@@ -67,7 +67,6 @@ _subarch=
 
 ### IMPORTANT: Do no edit below this line unless you know what you're doing
 pkgbase=linux-ck
-pkgname=("$pkgbase" "$pkgbase-headers")
 pkgver=6.2.8
 pkgrel=1
 arch=(x86_64)
@@ -76,7 +75,6 @@ license=(GPL2)
 makedepends=(bc cpio libelf pahole perl tar xz)
 [[ -n "$_clangbuild" ]] && makedepends+=(clang lld llvm python)
 options=('!strip')
-
 _gcc_more_v=20221217
 source=(
   "https://www.kernel.org/pub/linux/kernel/v6.x/linux-${pkgver}.tar.xz"
@@ -110,7 +108,7 @@ sha256sums=(
 prepare() {
   cd linux-${pkgver}
 
-  msg2 "Setting version..."
+  echo "Setting version..."
   scripts/setlocalversion --save-scmversion
   echo "-$pkgrel" > localversion.10-pkgrel
   echo "${pkgbase#linux}" > localversion.20-pkgname
@@ -201,7 +199,7 @@ build() {
   make LLVM=$_LLVM LLVM_IAS=$_LLVM all
 }
 
-package_linux-ck() {
+_package() {
   pkgdesc="The Linux kernel and modules with ck's hrtimer patches"
   depends=(coreutils initramfs kmod)
   optdepends=('linux-firmware: firmware images needed for some devices'
@@ -235,7 +233,7 @@ package_linux-ck() {
   rm "$modulesdir"/{source,build}
 }
 
-package_linux-ck-headers() {
+_package-headers() {
   pkgdesc="Headers and scripts for building modules for ${pkgbase/linux/Linux} kernel"
   depends=(pahole "$pkgbase") # added to keep kernel and headers packages matched
   #groups=('ck-generic')
@@ -318,6 +316,7 @@ package_linux-ck-headers() {
   ln -sr "$builddir" "$pkgdir/usr/src/$pkgbase"
 }
 
+pkgname=("$pkgbase" "$pkgbase-headers")
 for _p in "${pkgname[@]}"; do
   eval "package_$_p() {
     $(declare -f "_package${_p#$pkgbase}")

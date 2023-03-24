@@ -1,4 +1,4 @@
-From fbb4b8ff90e0600ccf96d7f04f6bc065ac69610b Mon Sep 17 00:00:00 2001
+From 9aff6e8de6b2540565826ab3444355d9f5656c32 Mon Sep 17 00:00:00 2001
 From: graysky <therealgraysky@proton.me>
 Date: Wed, 5 Oct 2022 05:43:38 -0400
 Subject: [PATCH 5/8] hrtimer: Replace all calls to
@@ -36,7 +36,7 @@ index 521534d5c1e5..ee2f36687202 100644
  		return 0;
  
 diff --git a/drivers/iio/light/tsl2563.c b/drivers/iio/light/tsl2563.c
-index 951f35ef3f41..47de12295482 100644
+index 71302ae864d9..0f30c5e83c99 100644
 --- a/drivers/iio/light/tsl2563.c
 +++ b/drivers/iio/light/tsl2563.c
 @@ -271,11 +271,7 @@ static void tsl2563_wait_adc(struct tsl2563_chip *chip)
@@ -207,7 +207,7 @@ index 4dfdbfca6841..7a9ad5a9c88b 100644
  
  	timer_setup(&ips->timer, monitor_timeout, TIMER_DEFERRABLE);
 diff --git a/net/core/pktgen.c b/net/core/pktgen.c
-index c3763056c554..eb3f84a3aa2a 100644
+index 760238196db1..d1754cfc89e8 100644
 --- a/net/core/pktgen.c
 +++ b/net/core/pktgen.c
 @@ -2001,7 +2001,7 @@ static void pktgen_mark_device(const struct pktgen_net *pn, const char *ifname)
@@ -308,4 +308,4 @@ index 5d2e54e06e30..b7620118a1a8 100644
  }
  
 -- 
-2.39.0
+2.40.0

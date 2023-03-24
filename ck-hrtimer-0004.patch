@@ -1,4 +1,4 @@
-From 4171f827d0e1f7c223139c77d7ba77dc7b516edb Mon Sep 17 00:00:00 2001
+From 91507ab760c73b18aef00c2783de0c4e41212c46 Mon Sep 17 00:00:00 2001
 From: graysky <therealgraysky@proton.me>
 Date: Wed, 5 Oct 2022 05:43:13 -0400
 Subject: [PATCH 4/8] hrtimer: Replace all schedule timeout(1) with
@@ -15,7 +15,6 @@ Subject: [PATCH 4/8] hrtimer: Replace all schedule timeout(1) with
  drivers/accessibility/speakup/synth.c          | 14 ++++----------
  drivers/block/swim.c                           |  5 +++--
  drivers/char/ipmi/ipmi_msghandler.c            |  2 +-
- drivers/char/ipmi/ipmi_ssif.c                  |  2 +-
  drivers/comedi/drivers/ni_mio_common.c         |  2 +-
  drivers/gpu/drm/vmwgfx/vmwgfx_irq.c            |  2 +-
  drivers/media/pci/ivtv/ivtv-ioctl.c            |  2 +-
@@ -32,13 +31,13 @@ Subject: [PATCH 4/8] hrtimer: Replace all schedule timeout(1) with
  drivers/video/fbdev/pxafb.c                    |  2 +-
  fs/btrfs/delalloc-space.c                      |  2 +-
  sound/usb/line6/pcm.c                          |  2 +-
- 27 files changed, 36 insertions(+), 41 deletions(-)
+ 26 files changed, 35 insertions(+), 40 deletions(-)
 
 diff --git a/drivers/accessibility/speakup/speakup_acntpc.c b/drivers/accessibility/speakup/speakup_acntpc.c
-index a55b60754eb1..91b4d362ac60 100644
+index a27e6bbf05da..703d32ed9172 100644
 --- a/drivers/accessibility/speakup/speakup_acntpc.c
 +++ b/drivers/accessibility/speakup/speakup_acntpc.c
-@@ -198,7 +198,7 @@ static void do_catch_up(struct spk_synth *synth)
+@@ -207,7 +207,7 @@ static void do_catch_up(struct spk_synth *synth)
  		full_time_val = full_time->u.n.value;
  		spin_unlock_irqrestore(&speakup_info.spinlock, flags);
  		if (synth_full()) {
@@ -47,7 +46,7 @@ index a55b60754eb1..91b4d362ac60 100644
  			continue;
  		}
  		set_current_state(TASK_RUNNING);
-@@ -226,7 +226,7 @@ static void do_catch_up(struct spk_synth *synth)
+@@ -235,7 +235,7 @@ static void do_catch_up(struct spk_synth *synth)
  			jiffy_delta_val = jiffy_delta->u.n.value;
  			delay_time_val = delay_time->u.n.value;
  			spin_unlock_irqrestore(&speakup_info.spinlock, flags);
@@ -57,10 +56,10 @@ index a55b60754eb1..91b4d362ac60 100644
  		}
  	}
 diff --git a/drivers/accessibility/speakup/speakup_apollo.c b/drivers/accessibility/speakup/speakup_apollo.c
-index c84a7e0864b7..b7be255a991e 100644
+index d2fbb3f57221..52c16aef7574 100644
 --- a/drivers/accessibility/speakup/speakup_apollo.c
 +++ b/drivers/accessibility/speakup/speakup_apollo.c
-@@ -165,7 +165,7 @@ static void do_catch_up(struct spk_synth *synth)
+@@ -178,7 +178,7 @@ static void do_catch_up(struct spk_synth *synth)
  		if (!synth->io_ops->synth_out(synth, ch)) {
  			synth->io_ops->tiocmset(synth, 0, UART_MCR_RTS);
  			synth->io_ops->tiocmset(synth, UART_MCR_RTS, 0);
@@ -70,10 +69,10 @@ index c84a7e0864b7..b7be255a991e 100644
  		}
  		if (time_after_eq(jiffies, jiff_max) && (ch == SPACE)) {
 diff --git a/drivers/accessibility/speakup/speakup_decext.c b/drivers/accessibility/speakup/speakup_decext.c
-index eaebf62300a4..37d599395159 100644
+index 271bcf279bf9..8bd73d22f68b 100644
 --- a/drivers/accessibility/speakup/speakup_decext.c
 +++ b/drivers/accessibility/speakup/speakup_decext.c
-@@ -180,7 +180,7 @@ static void do_catch_up(struct spk_synth *synth)
+@@ -189,7 +189,7 @@ static void do_catch_up(struct spk_synth *synth)
  		if (ch == '\n')
  			ch = 0x0D;
  		if (synth_full() || !synth->io_ops->synth_out(synth, ch)) {
@@ -83,10 +82,10 @@ index eaebf62300a4..37d599395159 100644
  		}
  		set_current_state(TASK_RUNNING);
 diff --git a/drivers/accessibility/speakup/speakup_decpc.c b/drivers/accessibility/speakup/speakup_decpc.c
-index dec314dee214..2a5deb5256b2 100644
+index 083ca9265805..c6ff3bd798d8 100644
 --- a/drivers/accessibility/speakup/speakup_decpc.c
 +++ b/drivers/accessibility/speakup/speakup_decpc.c
-@@ -398,7 +398,7 @@ static void do_catch_up(struct spk_synth *synth)
+@@ -409,7 +409,7 @@ static void do_catch_up(struct spk_synth *synth)
  		if (ch == '\n')
  			ch = 0x0D;
  		if (dt_sendchar(ch)) {
@@ -96,10 +95,10 @@ index dec314dee214..2a5deb5256b2 100644
  		}
  		set_current_state(TASK_RUNNING);
 diff --git a/drivers/accessibility/speakup/speakup_dectlk.c b/drivers/accessibility/speakup/speakup_dectlk.c
-index 2a7e8d727904..35c0b62f5351 100644
+index 56334405d865..1fbabd2a47a8 100644
 --- a/drivers/accessibility/speakup/speakup_dectlk.c
 +++ b/drivers/accessibility/speakup/speakup_dectlk.c
-@@ -257,7 +257,7 @@ static void do_catch_up(struct spk_synth *synth)
+@@ -265,7 +265,7 @@ static void do_catch_up(struct spk_synth *synth)
  		if (ch == '\n')
  			ch = 0x0D;
  		if (synth_full_val || !synth->io_ops->synth_out(synth, ch)) {
@@ -109,10 +108,10 @@ index 2a7e8d727904..35c0b62f5351 100644
  		}
  		set_current_state(TASK_RUNNING);
 diff --git a/drivers/accessibility/speakup/speakup_dtlk.c b/drivers/accessibility/speakup/speakup_dtlk.c
-index 6f01e010aaf4..c4c4413b38b4 100644
+index fa826568937b..37b9f419bd4d 100644
 --- a/drivers/accessibility/speakup/speakup_dtlk.c
 +++ b/drivers/accessibility/speakup/speakup_dtlk.c
-@@ -211,7 +211,7 @@ static void do_catch_up(struct spk_synth *synth)
+@@ -221,7 +221,7 @@ static void do_catch_up(struct spk_synth *synth)
  		delay_time_val = delay_time->u.n.value;
  		spin_unlock_irqrestore(&speakup_info.spinlock, flags);
  		if (synth_full()) {
@@ -121,7 +120,7 @@ index 6f01e010aaf4..c4c4413b38b4 100644
  			continue;
  		}
  		set_current_state(TASK_RUNNING);
-@@ -227,7 +227,7 @@ static void do_catch_up(struct spk_synth *synth)
+@@ -237,7 +237,7 @@ static void do_catch_up(struct spk_synth *synth)
  			delay_time_val = delay_time->u.n.value;
  			jiffy_delta_val = jiffy_delta->u.n.value;
  			spin_unlock_irqrestore(&speakup_info.spinlock, flags);
@@ -131,10 +130,10 @@ index 6f01e010aaf4..c4c4413b38b4 100644
  		}
  	}
 diff --git a/drivers/accessibility/speakup/speakup_keypc.c b/drivers/accessibility/speakup/speakup_keypc.c
-index f61b62f1ea4d..9b0e072223eb 100644
+index 9356f6379560..09f520d8feed 100644
 --- a/drivers/accessibility/speakup/speakup_keypc.c
 +++ b/drivers/accessibility/speakup/speakup_keypc.c
-@@ -199,7 +199,7 @@ static void do_catch_up(struct spk_synth *synth)
+@@ -208,7 +208,7 @@ static void do_catch_up(struct spk_synth *synth)
  		full_time_val = full_time->u.n.value;
  		spin_unlock_irqrestore(&speakup_info.spinlock, flags);
  		if (synth_full()) {
@@ -143,7 +142,7 @@ index f61b62f1ea4d..9b0e072223eb 100644
  			continue;
  		}
  		set_current_state(TASK_RUNNING);
-@@ -232,7 +232,7 @@ static void do_catch_up(struct spk_synth *synth)
+@@ -241,7 +241,7 @@ static void do_catch_up(struct spk_synth *synth)
  			jiffy_delta_val = jiffy_delta->u.n.value;
  			delay_time_val = delay_time->u.n.value;
  			spin_unlock_irqrestore(&speakup_info.spinlock, flags);
@@ -216,10 +215,10 @@ index 42b4b6828690..9d16e9ed6d1e 100644
  		swim_select(base, RELAX);
  		if (!swim_readbit(base, STEP))
 diff --git a/drivers/char/ipmi/ipmi_msghandler.c b/drivers/char/ipmi/ipmi_msghandler.c
-index 49a1707693c9..b48e9dbbfc6e 100644
+index 186f1fee7534..5584e987066a 100644
 --- a/drivers/char/ipmi/ipmi_msghandler.c
 +++ b/drivers/char/ipmi/ipmi_msghandler.c
-@@ -3728,7 +3728,7 @@ static void cleanup_smi_msgs(struct ipmi_smi *intf)
+@@ -3734,7 +3734,7 @@ static void cleanup_smi_msgs(struct ipmi_smi *intf)
  	/* Current message first, to preserve order */
  	while (intf->curr_msg && !list_empty(&intf->waiting_rcv_msgs)) {
  		/* Wait for the message to clear out. */
@@ -228,19 +227,6 @@ index 49a1707693c9..b48e9dbbfc6e 100644
  	}
  
  	/* No need for locks, the interface is down. */
-diff --git a/drivers/char/ipmi/ipmi_ssif.c b/drivers/char/ipmi/ipmi_ssif.c
-index e1072809fe31..7dd681f62578 100644
---- a/drivers/char/ipmi/ipmi_ssif.c
-+++ b/drivers/char/ipmi/ipmi_ssif.c
-@@ -1270,7 +1270,7 @@ static void shutdown_ssif(void *send_info)
- 
- 	/* make sure the driver is not looking for flags any more. */
- 	while (ssif_info->ssif_state != SSIF_IDLE)
--		schedule_timeout(1);
-+		schedule_min_hrtimeout();
- 
- 	ssif_info->stopping = true;
- 	del_timer_sync(&ssif_info->watch_timer);
 diff --git a/drivers/comedi/drivers/ni_mio_common.c b/drivers/comedi/drivers/ni_mio_common.c
 index d39998565808..7c7d6844b074 100644
 --- a/drivers/comedi/drivers/ni_mio_common.c
@@ -294,7 +280,7 @@ index 13d7d55e6594..280686cb37f4 100644
  
  			/* To convert jiffies to ms, we must multiply by 1000
 diff --git a/drivers/mfd/ucb1x00-core.c b/drivers/mfd/ucb1x00-core.c
-index b690796d24d4..448b13da62b4 100644
+index fc4d4c844a81..0b6c8db61d04 100644
 --- a/drivers/mfd/ucb1x00-core.c
 +++ b/drivers/mfd/ucb1x00-core.c
 @@ -250,7 +250,7 @@ unsigned int ucb1x00_adc_read(struct ucb1x00 *ucb, int adc_channel, int sync)
@@ -333,10 +319,10 @@ index 687dd542f7f6..fcde62700320 100644
  
  	return err;
 diff --git a/drivers/net/usb/lan78xx.c b/drivers/net/usb/lan78xx.c
-index f18ab8e220db..2f2a35f971a0 100644
+index 068488890d57..6270715b1bd6 100644
 --- a/drivers/net/usb/lan78xx.c
 +++ b/drivers/net/usb/lan78xx.c
-@@ -3179,7 +3179,7 @@ static void lan78xx_terminate_urbs(struct lan78xx_net *dev)
+@@ -3154,7 +3154,7 @@ static void lan78xx_terminate_urbs(struct lan78xx_net *dev)
  	/* maybe wait for deletions to finish. */
  	while (!skb_queue_empty(&dev->rxq) ||
  	       !skb_queue_empty(&dev->txq)) {
@@ -420,7 +406,7 @@ index 161fc65d6b57..b65388134829 100644
  	hwa742_set_update_mode(hwa742.update_mode_before_suspend);
  }
 diff --git a/drivers/video/fbdev/pxafb.c b/drivers/video/fbdev/pxafb.c
-index 696ac5431180..27336843c2ea 100644
+index c46ed78298ae..4069b30c3963 100644
 --- a/drivers/video/fbdev/pxafb.c
 +++ b/drivers/video/fbdev/pxafb.c
 @@ -1287,7 +1287,7 @@ static int pxafb_smart_thread(void *arg)
@@ -433,10 +419,10 @@ index 696ac5431180..27336843c2ea 100644
  
  	pr_debug("%s(): task ending\n", __func__);
 diff --git a/fs/btrfs/delalloc-space.c b/fs/btrfs/delalloc-space.c
-index 118b2e20b2e1..bf4cd9fbc9eb 100644
+index 7ddb1d104e8e..44a3b618bf48 100644
 --- a/fs/btrfs/delalloc-space.c
 +++ b/fs/btrfs/delalloc-space.c
-@@ -322,7 +322,7 @@ int btrfs_delalloc_reserve_metadata(struct btrfs_inode *inode, u64 num_bytes,
+@@ -324,7 +324,7 @@ int btrfs_delalloc_reserve_metadata(struct btrfs_inode *inode, u64 num_bytes,
  			flush = BTRFS_RESERVE_FLUSH_LIMIT;
  
  		if (btrfs_transaction_in_commit(fs_info))
@@ -459,4 +445,4 @@ index 6a4af725aedd..aeecf54b7a9f 100644
  	if (alive)
  		dev_err(line6pcm->line6->ifcdev,
 -- 
-2.39.0
+2.40.0

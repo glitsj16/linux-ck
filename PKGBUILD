@@ -81,7 +81,7 @@ source=(
   config
   "more-uarches-${_gcc_more_v}.tar.gz::https://github.com/graysky2/kernel_compiler_patch/archive/${_gcc_more_v}.tar.gz"
   0001-ZEN-Add-sysctl-and-CONFIG-to-disallow-unprivileged-C.patch
-  0002-bpf-x86-Fix-IP-after-emitting-call-depth-accounting.patch
+  #0002-bpf-x86-Fix-IP-after-emitting-call-depth-accounting.patch
   ck-hrtimer-0001.patch
   ck-hrtimer-0002.patch
   ck-hrtimer-0003.patch
@@ -96,7 +96,7 @@ sha256sums=(
   'SKIP'
   'SKIP'
   'SKIP'
-  'SKIP'
+  #'SKIP'
   'SKIP'
   'SKIP'
   'SKIP'

@@ -1,4 +1,4 @@
-From b8caccf9975130dfc428e8b7756091dea2c9a1a1 Mon Sep 17 00:00:00 2001
+From f81252502b6d1fc7e8488d828645e376ff2db54a Mon Sep 17 00:00:00 2001
 From: graysky <therealgraysky@proton.me>
 Date: Wed, 5 Oct 2022 05:44:39 -0400
 Subject: [PATCH 7/8] time: Don't use hrtimer overlay when pm_freezing since
@@ -10,10 +10,10 @@ Subject: [PATCH 7/8] time: Don't use hrtimer overlay when pm_freezing since
  2 files changed, 6 insertions(+), 5 deletions(-)
 
 diff --git a/kernel/time/hrtimer.c b/kernel/time/hrtimer.c
-index 2a2b107b128b..f29c00e9709c 100644
+index 1a707c21738c..796a992611fb 100644
 --- a/kernel/time/hrtimer.c
 +++ b/kernel/time/hrtimer.c
-@@ -2407,7 +2407,7 @@ long __sched schedule_msec_hrtimeout(long timeout)
+@@ -2409,7 +2409,7 @@ long __sched schedule_msec_hrtimeout(long timeout)
  	 * (yet) better than Hz, as would occur during startup, use regular
  	 * timers.
  	 */
@@ -23,7 +23,7 @@ index 2a2b107b128b..f29c00e9709c 100644
  
  	secs = timeout / 1000;
 diff --git a/kernel/time/timer.c b/kernel/time/timer.c
-index 9d2711847a40..1418635eb367 100644
+index c39b817b139e..448328b4d735 100644
 --- a/kernel/time/timer.c
 +++ b/kernel/time/timer.c
 @@ -44,6 +44,7 @@
@@ -34,7 +34,7 @@ index 9d2711847a40..1418635eb367 100644
  #include <linux/sysctl.h>
  
  #include <linux/uaccess.h>
-@@ -2104,12 +2105,12 @@ void msleep(unsigned int msecs)
+@@ -2335,12 +2336,12 @@ void msleep(unsigned int msecs)
  	 * Use high resolution timers where the resolution of tick based
  	 * timers is inadequate.
  	 */
@@ -49,7 +49,7 @@ index 9d2711847a40..1418635eb367 100644
  
  	while (timeout)
  		timeout = schedule_timeout_uninterruptible(timeout);
-@@ -2126,12 +2127,12 @@ unsigned long msleep_interruptible(unsigned int msecs)
+@@ -2357,12 +2358,12 @@ unsigned long msleep_interruptible(unsigned int msecs)
  	int jiffs = msecs_to_jiffies(msecs);
  	unsigned long timeout;
  
@@ -65,4 +65,4 @@ index 9d2711847a40..1418635eb367 100644
  	while (timeout && !signal_pending(current))
  		timeout = schedule_timeout_interruptible(timeout);
 -- 
-2.39.0
+2.40.0

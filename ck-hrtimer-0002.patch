@@ -1,4 +1,4 @@
-From 403d6ba24bf3ab1d3ca39b1a963543eaf0d6b1be Mon Sep 17 00:00:00 2001
+From c88461ebe128381153df9d8122b9624c968d305a Mon Sep 17 00:00:00 2001
 From: graysky <therealgraysky@proton.me>
 Date: Wed, 5 Oct 2022 05:42:29 -0400
 Subject: [PATCH 2/8] time: Special case calls of schedule_timeout(1) to use
@@ -9,10 +9,10 @@ Subject: [PATCH 2/8] time: Special case calls of schedule_timeout(1) to use
  1 file changed, 14 insertions(+), 2 deletions(-)
 
 diff --git a/kernel/time/timer.c b/kernel/time/timer.c
-index 717fcb9fb14a..3ca173b022af 100644
+index 63a8ce7177dd..63cfa1bbec8e 100644
 --- a/kernel/time/timer.c
 +++ b/kernel/time/timer.c
-@@ -1929,6 +1929,18 @@ signed long __sched schedule_timeout(signed long timeout)
+@@ -2161,6 +2161,18 @@ signed long __sched schedule_timeout(signed long timeout)
  
  	expire = timeout + jiffies;
  
@@ -31,7 +31,7 @@ index 717fcb9fb14a..3ca173b022af 100644
  	timer.task = current;
  	timer_setup_on_stack(&timer.timer, process_timeout, 0);
  	__mod_timer(&timer.timer, expire, MOD_TIMER_NOTPENDING);
-@@ -1937,10 +1949,10 @@ signed long __sched schedule_timeout(signed long timeout)
+@@ -2169,10 +2181,10 @@ signed long __sched schedule_timeout(signed long timeout)
  
  	/* Remove the timer from the object tracker */
  	destroy_timer_on_stack(&timer.timer);
@@ -45,4 +45,4 @@ index 717fcb9fb14a..3ca173b022af 100644
  }
  EXPORT_SYMBOL(schedule_timeout);
 -- 
-2.39.0
+2.40.0

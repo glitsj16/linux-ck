@@ -1,4 +1,4 @@
-From 901a783137cafb0e135a8b7edb227db6f64085d4 Mon Sep 17 00:00:00 2001
+From 7d7d965177753240fded5d00110eae99b4ddbd85 Mon Sep 17 00:00:00 2001
 From: graysky <therealgraysky@proton.me>
 Date: Wed, 5 Oct 2022 05:44:15 -0400
 Subject: [PATCH 6/8] hrtimer: Replace all calls to
@@ -34,10 +34,10 @@ index 160c8377e352..c794a1cacd8c 100644
  
  /*
 diff --git a/drivers/net/wireless/intel/ipw2x00/ipw2100.c b/drivers/net/wireless/intel/ipw2x00/ipw2100.c
-index b0f23cf1a621..d546c3028353 100644
+index 0812db8936f1..2a5b82511498 100644
 --- a/drivers/net/wireless/intel/ipw2x00/ipw2100.c
 +++ b/drivers/net/wireless/intel/ipw2x00/ipw2100.c
-@@ -815,7 +815,7 @@ static int ipw2100_hw_send_command(struct ipw2100_priv *priv,
+@@ -804,7 +804,7 @@ static int ipw2100_hw_send_command(struct ipw2100_priv *priv,
  	 * doesn't seem to have as many firmware restart cycles...
  	 *
  	 * As a test, we're sticking in a 1/100s delay here */
@@ -46,7 +46,7 @@ index b0f23cf1a621..d546c3028353 100644
  
  	return 0;
  
-@@ -1266,7 +1266,7 @@ static int ipw2100_start_adapter(struct ipw2100_priv *priv)
+@@ -1255,7 +1255,7 @@ static int ipw2100_start_adapter(struct ipw2100_priv *priv)
  	IPW_DEBUG_FW("Waiting for f/w initialization to complete...\n");
  	i = 5000;
  	do {
@@ -144,7 +144,7 @@ index 55c232413e2b..f29eaacb7791 100644
  		/* config depop sequence parameter */
  		rt5631_write_index(component, RT5631_SPK_INTL_CTRL, 0x302f);
 diff --git a/sound/soc/soc-dapm.c b/sound/soc/soc-dapm.c
-index 879cf1be67a9..5fec0404d74c 100644
+index f61c8633e7eb..9bc4ebd65ba3 100644
 --- a/sound/soc/soc-dapm.c
 +++ b/sound/soc/soc-dapm.c
 @@ -156,7 +156,7 @@ static void dapm_assert_locked(struct snd_soc_dapm_context *dapm)
@@ -157,4 +157,4 @@ index 879cf1be67a9..5fec0404d74c 100644
  
  __printf(3, 4)
 -- 
-2.39.0
+2.40.0

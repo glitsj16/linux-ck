@@ -13,7 +13,7 @@ _makenconfig=
 # give module_db a try: https://aur.archlinux.org/packages/modprobed-db
 # This PKGBUILD reads the database kept if it exists
 # More at this wiki page ---> https://wiki.archlinux.org/index.php/Modprobed-db
-_localmodcfg=
+_localmodcfg=y
 
 # Compile using clang rather than gcc
 _clangbuild=
@@ -90,6 +90,7 @@ source=(
   ck-hrtimer-0006.patch
   ck-hrtimer-0007.patch
   ck-hrtimer-0008.patch
+  modprobed.db
 )
 sha256sums=(
   'SKIP'
@@ -97,6 +98,7 @@ sha256sums=(
   'SKIP'
   'SKIP'
   #'SKIP'
+  'SKIP'
   'SKIP'
   'SKIP'
   'SKIP'
@@ -175,9 +177,9 @@ prepare() {
   ### Optionally load needed modules for the make localmodconfig
   # See https://aur.archlinux.org/packages/modprobed-db
     if [ -n "$_localmodcfg" ]; then
-      if [ -f $HOME/.config/modprobed.db ]; then
+      if [ -f "$srcdir/modprobed.db" ]; then
         echo "Running Steven Rostedt's make localmodconfig now"
-        make LLVM=$_LLVM LLVM_IAS=$_LLVM LSMOD="$HOME/.config/modprobed.db" localmodconfig
+        make LLVM=$_LLVM LLVM_IAS=$_LLVM LSMOD="$srcdir/modprobed.db" localmodconfig
       else
         echo "No modprobed.db data found"
         exit

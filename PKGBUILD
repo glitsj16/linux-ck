@@ -67,7 +67,7 @@ _subarch=
 
 ### IMPORTANT: Do no edit below this line unless you know what you're doing
 pkgbase=linux-ck
-pkgver=6.2.8
+pkgver=6.2.9
 pkgrel=1
 arch=(x86_64)
 url="https://wiki.archlinux.org/index.php/Linux-ck"
@@ -81,7 +81,7 @@ source=(
   config
   "more-uarches-${_gcc_more_v}.tar.gz::https://github.com/graysky2/kernel_compiler_patch/archive/${_gcc_more_v}.tar.gz"
   0001-ZEN-Add-sysctl-and-CONFIG-to-disallow-unprivileged-C.patch
-  #0002-bpf-x86-Fix-IP-after-emitting-call-depth-accounting.patch
+  0002-bpf-x86-Fix-IP-after-emitting-call-depth-accounting.patch
   ck-hrtimer-0001.patch
   ck-hrtimer-0002.patch
   ck-hrtimer-0003.patch
@@ -96,7 +96,7 @@ sha256sums=(
   'SKIP'
   'SKIP'
   'SKIP'
-  #'SKIP'
+  'SKIP'
   'SKIP'
   'SKIP'
   'SKIP'

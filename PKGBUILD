@@ -90,7 +90,6 @@ source=(
   ck-hrtimer-0006.patch
   ck-hrtimer-0007.patch
   ck-hrtimer-0008.patch
-  modprobed.db
 )
 sha256sums=(
   'SKIP'
@@ -98,7 +97,6 @@ sha256sums=(
   'SKIP'
   'SKIP'
   #'SKIP'
-  'SKIP'
   'SKIP'
   'SKIP'
   'SKIP'

@@ -7,14 +7,6 @@
 # Tweak kernel options prior to a build via nconfig
 _makenconfig=
 
-# Only compile select modules to reduce the number of modules built
-#
-# To keep track of which modules are needed for your specific system/hardware,
-# give module_db a try: https://aur.archlinux.org/packages/modprobed-db
-# This PKGBUILD reads the database kept if it exists
-# More at this wiki page ---> https://wiki.archlinux.org/index.php/Modprobed-db
-_localmodcfg=y
-
 # Compile using clang rather than gcc
 _clangbuild=
 
@@ -90,10 +82,8 @@ source=(
   ck-hrtimer-0006.patch
   ck-hrtimer-0007.patch
   ck-hrtimer-0008.patch
-  modprobed.db
 )
 sha256sums=(
-  'SKIP'
   'SKIP'
   'SKIP'
   'SKIP'
@@ -173,18 +163,6 @@ prepare() {
     # no subarch defined so allow user to pick one
     make LLVM=$_LLVM LLVM_IAS=$_LLVM oldconfig
   fi
-
-  ### Optionally load needed modules for the make localmodconfig
-  # See https://aur.archlinux.org/packages/modprobed-db
-    if [ -n "$_localmodcfg" ]; then
-      if [ -f "$srcdir/modprobed.db" ]; then
-        echo "Running Steven Rostedt's make localmodconfig now"
-        make LLVM=$_LLVM LLVM_IAS=$_LLVM LSMOD="$srcdir/modprobed.db" localmodconfig
-      else
-        echo "No modprobed.db data found"
-        exit
-      fi
-    fi
 
   make -s kernelrelease > version
   echo "Prepared $pkgbase version $(<version)"

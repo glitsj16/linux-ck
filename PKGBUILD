@@ -66,7 +66,7 @@ url="https://wiki.archlinux.org/index.php/Linux-ck"
 license=(GPL2)
 makedepends=(bc cpio libelf pahole perl tar xz)
 [[ -n "$_clangbuild" ]] && makedepends+=(clang lld llvm python)
-options=('!strip')
+options=('ccache' '!strip')
 _gcc_more_v=20221217
 source=(
   "https://www.kernel.org/pub/linux/kernel/v6.x/linux-${pkgver}.tar.xz"

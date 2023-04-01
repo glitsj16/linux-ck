@@ -9,15 +9,6 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v3
-    - name: ccache
-      uses: hendrikmuhs/ccache-action@v1.2
-    - name: ccache configuration
-      run: |
-        export CCACHE_DIR="/home/runner/work/linux-ck/linux-ck/.ccache"
-        export CCACHE_MAXSIZE="500MB"
-        export CCACHE_NOHASHDIR="true"
-        export CCACHE_SLOPPINESS="file_macro,locale,time_macros"
-        export CCACHE_TEMPDIR="/tmp/ccache"
     - name: Makepkg Build and Check
       id: makepkg
       uses: glitsj16/pkgbuild-action@v1

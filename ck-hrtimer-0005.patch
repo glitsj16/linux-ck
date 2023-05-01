@@ -1,6 +1,6 @@
-From 9aff6e8de6b2540565826ab3444355d9f5656c32 Mon Sep 17 00:00:00 2001
+From 4976ae532eb7fbed9b6c360145604b700159d6cf Mon Sep 17 00:00:00 2001
 From: graysky <therealgraysky@proton.me>
-Date: Wed, 5 Oct 2022 05:43:38 -0400
+Date: Sat, 25 Mar 2023 02:05:42 -0400
 Subject: [PATCH 5/8] hrtimer: Replace all calls to
  schedule_timeout_interruptible of potentially under 50ms to use
  schedule_msec_hrtimeout_interruptible
@@ -36,10 +36,10 @@ index 521534d5c1e5..ee2f36687202 100644
  		return 0;
  
 diff --git a/drivers/iio/light/tsl2563.c b/drivers/iio/light/tsl2563.c
-index 71302ae864d9..0f30c5e83c99 100644
+index f2f55239a072..fe3e1a5005e3 100644
 --- a/drivers/iio/light/tsl2563.c
 +++ b/drivers/iio/light/tsl2563.c
-@@ -271,11 +271,7 @@ static void tsl2563_wait_adc(struct tsl2563_chip *chip)
+@@ -275,11 +275,7 @@ static void tsl2563_wait_adc(struct tsl2563_chip *chip)
  	default:
  		delay = 402;
  	}
@@ -53,7 +53,7 @@ index 71302ae864d9..0f30c5e83c99 100644
  
  static int tsl2563_adjust_gainlevel(struct tsl2563_chip *chip, u16 adc)
 diff --git a/drivers/media/i2c/msp3400-driver.c b/drivers/media/i2c/msp3400-driver.c
-index 4ce7a15a9884..b068aa670c2c 100644
+index 12032e28b428..bcb425c88e14 100644
 --- a/drivers/media/i2c/msp3400-driver.c
 +++ b/drivers/media/i2c/msp3400-driver.c
 @@ -170,7 +170,7 @@ static int msp_read(struct i2c_client *client, int dev, int addr)
@@ -308,4 +308,4 @@ index 5d2e54e06e30..b7620118a1a8 100644
  }
  
 -- 
-2.40.0
+2.40.1

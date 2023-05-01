@@ -1,6 +1,6 @@
-From b166793ed195be5b493db7f4640cd64cfe1006e5 Mon Sep 17 00:00:00 2001
+From c19d452944256c3b977d664eba21c5113aa17d47 Mon Sep 17 00:00:00 2001
 From: graysky <therealgraysky@proton.me>
-Date: Fri, 24 Mar 2023 03:37:02 -0400
+Date: Sat, 25 Mar 2023 02:06:15 -0400
 Subject: [PATCH 8/8] clockevents, hrtimer: Make hrtimer granularity and
  minimum hrtimeout configurable in sysctl. Set default granularity to 100us
  and min timeout to 500us
@@ -66,10 +66,10 @@ index 960143b183cd..c62a26fd9cc9 100644
  /**
   * clockevents_increase_min_delta - raise minimum delta of a clock event device
 diff --git a/kernel/time/hrtimer.c b/kernel/time/hrtimer.c
-index 796a992611fb..7e6c0b013830 100644
+index 4a3cdf0ca7b4..20385b2ad4cc 100644
 --- a/kernel/time/hrtimer.c
 +++ b/kernel/time/hrtimer.c
-@@ -2395,7 +2395,7 @@ EXPORT_SYMBOL_GPL(schedule_hrtimeout);
+@@ -2403,7 +2403,7 @@ EXPORT_SYMBOL_GPL(schedule_hrtimeout);
  long __sched schedule_msec_hrtimeout(long timeout)
  {
  	struct hrtimer_sleeper t;
@@ -78,7 +78,7 @@ index 796a992611fb..7e6c0b013830 100644
  	ktime_t expires;
  
  	if (!timeout) {
-@@ -2412,9 +2412,8 @@ long __sched schedule_msec_hrtimeout(long timeout)
+@@ -2420,9 +2420,8 @@ long __sched schedule_msec_hrtimeout(long timeout)
  	if (jiffs > 4 || hrtimer_resolution >= NSEC_PER_SEC / HZ || pm_freezing)
  		return schedule_timeout(jiffs);
  
@@ -89,7 +89,7 @@ index 796a992611fb..7e6c0b013830 100644
  
  	hrtimer_init_sleeper_on_stack(&t, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
  	hrtimer_set_expires_range_ns(&t.timer, expires, delta);
-@@ -2436,9 +2435,51 @@ long __sched schedule_msec_hrtimeout(long timeout)
+@@ -2444,9 +2443,51 @@ long __sched schedule_msec_hrtimeout(long timeout)
  
  EXPORT_SYMBOL(schedule_msec_hrtimeout);
  
@@ -143,4 +143,4 @@ index 796a992611fb..7e6c0b013830 100644
  
  EXPORT_SYMBOL(schedule_min_hrtimeout);
 -- 
-2.40.0
+2.40.1

@@ -1,8 +1,8 @@
-From f81252502b6d1fc7e8488d828645e376ff2db54a Mon Sep 17 00:00:00 2001
+From 15b62ba1b5e95947dac44f6d1c1e778c17007198 Mon Sep 17 00:00:00 2001
 From: graysky <therealgraysky@proton.me>
-Date: Wed, 5 Oct 2022 05:44:39 -0400
+Date: Sat, 25 Mar 2023 02:06:05 -0400
 Subject: [PATCH 7/8] time: Don't use hrtimer overlay when pm_freezing since
- some drivers still don't correctly use freezable timeouts.
+ some drivers still don't correctly use freezable timeouts
 
 ---
  kernel/time/hrtimer.c | 2 +-
@@ -10,10 +10,10 @@ Subject: [PATCH 7/8] time: Don't use hrtimer overlay when pm_freezing since
  2 files changed, 6 insertions(+), 5 deletions(-)
 
 diff --git a/kernel/time/hrtimer.c b/kernel/time/hrtimer.c
-index 1a707c21738c..796a992611fb 100644
+index 4b7572d34fa8..4a3cdf0ca7b4 100644
 --- a/kernel/time/hrtimer.c
 +++ b/kernel/time/hrtimer.c
-@@ -2409,7 +2409,7 @@ long __sched schedule_msec_hrtimeout(long timeout)
+@@ -2417,7 +2417,7 @@ long __sched schedule_msec_hrtimeout(long timeout)
  	 * (yet) better than Hz, as would occur during startup, use regular
  	 * timers.
  	 */
@@ -65,4 +65,4 @@ index c39b817b139e..448328b4d735 100644
  	while (timeout && !signal_pending(current))
  		timeout = schedule_timeout_interruptible(timeout);
 -- 
-2.40.0
+2.40.1

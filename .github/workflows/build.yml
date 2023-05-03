@@ -9,6 +9,10 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v3
+    - name: Pacman testing repo's
+      run: |
+        echo "Activating testing repo's..."
+        patch -Np1 < ../../pacman.testing.patch
     - name: Makepkg Build
       id: makepkg
       uses: glitsj16/pkgbuild-action@v1

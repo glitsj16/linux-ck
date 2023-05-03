@@ -9,10 +9,6 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v3
-    - name: Pacman testing repo's
-      run: |
-        echo "Activating testing repo's..."
-        sed -i -e "s/#Include/Include/g" -e "s/#\[testing\]/\[testing\]/" -e "s/#\[community-testing\]/\[community-testing\]/" /etc/pacman.conf
     - name: Makepkg Build
       id: makepkg
       uses: glitsj16/pkgbuild-action@v1

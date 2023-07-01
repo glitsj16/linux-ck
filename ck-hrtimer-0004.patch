@@ -1,4 +1,4 @@
-From 27067c6818c9d072ddbfee6a0bb8fb5dcb11a8d3 Mon Sep 17 00:00:00 2001
+From 3d2bf1e24014c5c7788ec8b444893dbf068f4c4b Mon Sep 17 00:00:00 2001
 From: graysky <therealgraysky@proton.me>
 Date: Sat, 25 Mar 2023 02:05:35 -0400
 Subject: [PATCH 4/8] hrtimer: Replace all schedule timeout(1) with
@@ -229,10 +229,10 @@ index 186f1fee7534..5584e987066a 100644
  
  	/* No need for locks, the interface is down. */
 diff --git a/drivers/char/ipmi/ipmi_ssif.c b/drivers/char/ipmi/ipmi_ssif.c
-index a5ddebb1edea..43fbd9948e30 100644
+index 3b921c78ba08..1ca9d3486413 100644
 --- a/drivers/char/ipmi/ipmi_ssif.c
 +++ b/drivers/char/ipmi/ipmi_ssif.c
-@@ -1263,7 +1263,7 @@ static void shutdown_ssif(void *send_info)
+@@ -1265,7 +1265,7 @@ static void shutdown_ssif(void *send_info)
  
  	/* make sure the driver is not looking for flags any more. */
  	while (ssif_info->ssif_state != SSIF_IDLE)
@@ -381,10 +381,10 @@ index 26dbd347156e..bed5ca51c4a4 100644
  	/* walk again to check, if IOs are still pending in fw */
  	if (fnic_is_abts_pending(fnic, lr_sc))
 diff --git a/drivers/scsi/snic/snic_scsi.c b/drivers/scsi/snic/snic_scsi.c
-index 961af6fc21bc..951eb806217b 100644
+index c50ede326cc4..00ec3f8b0c34 100644
 --- a/drivers/scsi/snic/snic_scsi.c
 +++ b/drivers/scsi/snic/snic_scsi.c
-@@ -2332,7 +2332,7 @@ snic_reset(struct Scsi_Host *shost, struct scsi_cmnd *sc)
+@@ -2327,7 +2327,7 @@ snic_reset(struct Scsi_Host *shost, struct scsi_cmnd *sc)
  
  	/* Wait for all the IOs that are entered in Qcmd */
  	while (atomic_read(&snic->ios_inflight))
@@ -394,7 +394,7 @@ index 961af6fc21bc..951eb806217b 100644
  	ret = snic_issue_hba_reset(snic, sc);
  	if (ret) {
 diff --git a/drivers/staging/rts5208/rtsx.c b/drivers/staging/rts5208/rtsx.c
-index 2284a96abcff..0bd7edb90157 100644
+index db2dd0baa8be..aa2809475095 100644
 --- a/drivers/staging/rts5208/rtsx.c
 +++ b/drivers/staging/rts5208/rtsx.c
 @@ -470,7 +470,7 @@ static int rtsx_polling_thread(void *__dev)
@@ -420,7 +420,7 @@ index 161fc65d6b57..b65388134829 100644
  	hwa742_set_update_mode(hwa742.update_mode_before_suspend);
  }
 diff --git a/drivers/video/fbdev/pxafb.c b/drivers/video/fbdev/pxafb.c
-index c46ed78298ae..4069b30c3963 100644
+index 2a8b1dea3a67..bb2f3b201a69 100644
 --- a/drivers/video/fbdev/pxafb.c
 +++ b/drivers/video/fbdev/pxafb.c
 @@ -1287,7 +1287,7 @@ static int pxafb_smart_thread(void *arg)
@@ -433,7 +433,7 @@ index c46ed78298ae..4069b30c3963 100644
  
  	pr_debug("%s(): task ending\n", __func__);
 diff --git a/fs/btrfs/delalloc-space.c b/fs/btrfs/delalloc-space.c
-index 7ddb1d104e8e..44a3b618bf48 100644
+index 427abaf608b8..6ec36c324d21 100644
 --- a/fs/btrfs/delalloc-space.c
 +++ b/fs/btrfs/delalloc-space.c
 @@ -324,7 +324,7 @@ int btrfs_delalloc_reserve_metadata(struct btrfs_inode *inode, u64 num_bytes,
@@ -459,4 +459,4 @@ index 6a4af725aedd..aeecf54b7a9f 100644
  	if (alive)
  		dev_err(line6pcm->line6->ifcdev,
 -- 
-2.40.1
+2.41.0

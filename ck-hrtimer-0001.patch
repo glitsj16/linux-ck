@@ -1,4 +1,4 @@
-From fede28c1dbbd0ae1fe941299f152d6ee02251c35 Mon Sep 17 00:00:00 2001
+From e196dca522cbaa6cc12d69e3ba6246a4f46d7bb7 Mon Sep 17 00:00:00 2001
 From: graysky <therealgraysky@proton.me>
 Date: Sat, 25 Mar 2023 02:04:41 -0400
 Subject: [PATCH 1/8] hrtimer: Create highres timeout variants of
@@ -47,10 +47,10 @@ index b303472255be..0b64d1e91edb 100644
  
  #endif	/* FREEZER_H_INCLUDED */
 diff --git a/include/linux/sched.h b/include/linux/sched.h
-index 63d242164b1a..7d161c6c9d66 100644
+index eed5d65b8d1f..ca0560e052ce 100644
 --- a/include/linux/sched.h
 +++ b/include/linux/sched.h
-@@ -293,13 +293,40 @@ enum {
+@@ -295,13 +295,40 @@ enum {
  
  extern void scheduler_tick(void);
  
@@ -171,4 +171,4 @@ index e8c08292defc..4b7572d34fa8 100644
 +}
 +EXPORT_SYMBOL(schedule_msec_hrtimeout_uninterruptible);
 -- 
-2.40.1
+2.41.0

@@ -1,4 +1,4 @@
-From 15b62ba1b5e95947dac44f6d1c1e778c17007198 Mon Sep 17 00:00:00 2001
+From 25907014c37c4585b494c5828d71abaa2918ec03 Mon Sep 17 00:00:00 2001
 From: graysky <therealgraysky@proton.me>
 Date: Sat, 25 Mar 2023 02:06:05 -0400
 Subject: [PATCH 7/8] time: Don't use hrtimer overlay when pm_freezing since
@@ -65,4 +65,4 @@ index c39b817b139e..448328b4d735 100644
  	while (timeout && !signal_pending(current))
  		timeout = schedule_timeout_interruptible(timeout);
 -- 
-2.40.1
+2.41.0

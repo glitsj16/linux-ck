@@ -1,4 +1,4 @@
-From 862f39307b9c04007da83e20d7fa8164176a5ec9 Mon Sep 17 00:00:00 2001
+From 447626b6e1d4888af1ce3049b8cbe3b64729750a Mon Sep 17 00:00:00 2001
 From: graysky <therealgraysky@proton.me>
 Date: Sat, 25 Mar 2023 02:05:52 -0400
 Subject: [PATCH 6/8] hrtimer: Replace all calls to
@@ -56,7 +56,7 @@ index 0812db8936f1..2a5b82511498 100644
  
  		read_register(priv->net_dev, IPW_REG_INTA, &inta);
 diff --git a/drivers/rtc/rtc-wm8350.c b/drivers/rtc/rtc-wm8350.c
-index 6eaa9321c074..d52763dba896 100644
+index 947f8071803f..1848ee47411b 100644
 --- a/drivers/rtc/rtc-wm8350.c
 +++ b/drivers/rtc/rtc-wm8350.c
 @@ -114,7 +114,7 @@ static int wm8350_rtc_settime(struct device *dev, struct rtc_time *tm)
@@ -144,7 +144,7 @@ index 55c232413e2b..f29eaacb7791 100644
  		/* config depop sequence parameter */
  		rt5631_write_index(component, RT5631_SPK_INTL_CTRL, 0x302f);
 diff --git a/sound/soc/soc-dapm.c b/sound/soc/soc-dapm.c
-index 5d9a671e50f1..17b5f1a6ace3 100644
+index f2f04ce693a1..c527c122ff97 100644
 --- a/sound/soc/soc-dapm.c
 +++ b/sound/soc/soc-dapm.c
 @@ -156,7 +156,7 @@ static void dapm_assert_locked(struct snd_soc_dapm_context *dapm)
@@ -157,4 +157,4 @@ index 5d9a671e50f1..17b5f1a6ace3 100644
  
  __printf(3, 4)
 -- 
-2.40.1
+2.41.0

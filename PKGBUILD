@@ -12,7 +12,7 @@ _clangbuild=
 
 # Optionally select a sub architecture by number or leave blank which will
 # require user interaction during the build. Note that the generic (default)
-# option is 36.
+# option is 39.
 _subarch=
 
 #  1. AMD Opteron/Athlon64/Hammer/K8 (MK8)
@@ -28,34 +28,37 @@ _subarch=
 #  11. AMD Zen (MZEN) (NEW)
 #  12. AMD Zen 2 (MZEN2) (NEW)
 #  13. AMD Zen 3 (MZEN3) (NEW)
-#  14. Intel P4 / older Netburst based Xeon (MPSC)
-#  15. Intel Core 2 (MCORE2)
-#  16. Intel Atom (MATOM)
-#  17. Intel Nehalem (MNEHALEM) (NEW)
-#  18. Intel Westmere (MWESTMERE) (NEW)
-#  19. Intel Silvermont (MSILVERMONT) (NEW)
-#  20. Intel Goldmont (MGOLDMONT) (NEW)
-#  21. Intel Goldmont Plus (MGOLDMONTPLUS) (NEW)
-#  22. Intel Sandy Bridge (MSANDYBRIDGE) (NEW)
-#  23. Intel Ivy Bridge (MIVYBRIDGE) (NEW)
-#  24. Intel Haswell (MHASWELL) (NEW)
-#  25. Intel Broadwell (MBROADWELL) (NEW)
-#  26. Intel Skylake (MSKYLAKE) (NEW)
-#  27. Intel Skylake X (MSKYLAKEX) (NEW)
-#  28. Intel Cannon Lake (MCANNONLAKE) (NEW)
-#  29. Intel Ice Lake (MICELAKE) (NEW)
-#  30. Intel Cascade Lake (MCASCADELAKE) (NEW)
-#  31. Intel Cooper Lake (MCOOPERLAKE) (NEW)
-#  32. Intel Tiger Lake (MTIGERLAKE) (NEW)
-#  33. Intel Sapphire Rapids (MSAPPHIRERAPIDS) (NEW)
-#  34. Intel Rocket Lake (MROCKETLAKE) (NEW)
-#  35. Intel Alder Lake (MALDERLAKE) (NEW)
-#  36. Generic-x86-64 (GENERIC_CPU)
-#  37. Generic-x86-64-v2 (GENERIC_CPU2) (NEW)
-#  38. Generic-x86-64-v3 (GENERIC_CPU3) (NEW)
-#  39. Generic-x86-64-v4 (GENERIC_CPU4) (NEW)
-#  40. Intel-Native optimizations autodetected by GCC (MNATIVE_INTEL) (NEW)
-#  41. AMD-Native optimizations autodetected by GCC (MNATIVE_AMD) (NEW)
+#  14. AMD Zen 4 (MZEN4) (NEW)
+#  15. Intel P4 / older Netburst based Xeon (MPSC)
+#  16. Intel Core 2 (MCORE2)
+#  17. Intel Atom (MATOM)
+#  18. Intel Nehalem (MNEHALEM) (NEW)
+#  19. Intel Westmere (MWESTMERE) (NEW)
+#  20. Intel Silvermont (MSILVERMONT) (NEW)
+#  21. Intel Goldmont (MGOLDMONT) (NEW)
+#  22. Intel Goldmont Plus (MGOLDMONTPLUS) (NEW)
+#  23. Intel Sandy Bridge (MSANDYBRIDGE) (NEW)
+#  24. Intel Ivy Bridge (MIVYBRIDGE) (NEW)
+#  25. Intel Haswell (MHASWELL) (NEW)
+#  26. Intel Broadwell (MBROADWELL) (NEW)
+#  27. Intel Skylake (MSKYLAKE) (NEW)
+#  28. Intel Skylake X (MSKYLAKEX) (NEW)
+#  29. Intel Cannon Lake (MCANNONLAKE) (NEW)
+#  30. Intel Ice Lake (MICELAKE) (NEW)
+#  31. Intel Cascade Lake (MCASCADELAKE) (NEW)
+#  32. Intel Cooper Lake (MCOOPERLAKE) (NEW)
+#  33. Intel Tiger Lake (MTIGERLAKE) (NEW)
+#  34. Intel Sapphire Rapids (MSAPPHIRERAPIDS) (NEW)
+#  35. Intel Rocket Lake (MROCKETLAKE) (NEW)
+#  36. Intel Alder Lake (MALDERLAKE) (NEW)
+#  37. Intel Raptor Lake (MRAPTORLAKE) (NEW)
+#  38. Intel Meteor Lake (MMETEORLAKE) (NEW)
+#  39. Generic-x86-64 (GENERIC_CPU)
+#  40. Generic-x86-64-v2 (GENERIC_CPU2) (NEW)
+#  41. Generic-x86-64-v3 (GENERIC_CPU3) (NEW)
+#  42. Generic-x86-64-v4 (GENERIC_CPU4) (NEW)
+#  43. Intel-Native optimizations autodetected by the compiler (MNATIVE_INTEL) (NEW)
+#  44. AMD-Native optimizations autodetected by the compiler (MNATIVE_AMD) (NEW)
 
 ### IMPORTANT: Do no edit below this line unless you know what you're doing
 pkgbase=linux-ck
@@ -84,6 +87,8 @@ source=(
   config
   "more-uarches-${_gcc_more_v}.tar.gz::https://github.com/graysky2/kernel_compiler_patch/archive/${_gcc_more_v}.tar.gz"
   0001-ZEN-Add-sysctl-and-CONFIG-to-disallow-unprivileged-C.patch
+  0002-netfilter-nf_tables-unbind-non-anonymous-set-if-rule.patch
+  0003-mm-disable-CONFIG_PER_VMA_LOCK-by-default-until-its-.patch
   ck-hrtimer-0001.patch
   ck-hrtimer-0002.patch
   ck-hrtimer-0003.patch
@@ -94,6 +99,8 @@ source=(
   ck-hrtimer-0008.patch
 )
 sha256sums=(
+  'SKIP'
+  'SKIP'
   'SKIP'
   'SKIP'
   'SKIP'
@@ -119,7 +126,7 @@ prepare() {
   echo "Setting version..."
   echo "-$pkgrel" > localversion.10-pkgrel
   echo "${pkgbase#linux}" > localversion.20-pkgname
-#
+
   make defconfig
   make -s kernelrelease > version
   make mrproper
@@ -235,7 +242,7 @@ _package() {
   echo "$pkgbase" | install -Dm644 /dev/stdin "$modulesdir/pkgbase"
 
   echo "Installing modules..."
-  _make LLVM=$_LLVM LLVM_IAS=$_LLVM INSTALL_MOD_PATH="$pkgdir/usr" INSTALL_MOD_STRIP=1 \
+  ZSTD_CLEVEL=19 _make LLVM=$_LLVM LLVM_IAS=$_LLVM INSTALL_MOD_PATH="$pkgdir/usr" INSTALL_MOD_STRIP=1 \
     DEPMOD=/doesnt/exist modules_install  # Suppress depmod
 
   # remove build and source links

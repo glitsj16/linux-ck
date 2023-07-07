@@ -62,7 +62,7 @@ _subarch=
 
 ### IMPORTANT: Do no edit below this line unless you know what you're doing
 pkgbase=linux-ck
-pkgver=6.4.1
+pkgver=6.4.2
 pkgrel=1
 arch=(x86_64)
 url="https://wiki.archlinux.org/index.php/Linux-ck"
@@ -87,8 +87,8 @@ source=(
   config
   "more-uarches-${_gcc_more_v}.tar.gz::https://github.com/graysky2/kernel_compiler_patch/archive/${_gcc_more_v}.tar.gz"
   0001-ZEN-Add-sysctl-and-CONFIG-to-disallow-unprivileged-C.patch
-  0002-netfilter-nf_tables-unbind-non-anonymous-set-if-rule.patch
-  0003-mm-disable-CONFIG_PER_VMA_LOCK-by-default-until-its-.patch
+  #0002-netfilter-nf_tables-unbind-non-anonymous-set-if-rule.patch
+  #0003-mm-disable-CONFIG_PER_VMA_LOCK-by-default-until-its-.patch
   ck-hrtimer-0001.patch
   ck-hrtimer-0002.patch
   ck-hrtimer-0003.patch
@@ -99,8 +99,6 @@ source=(
   ck-hrtimer-0008.patch
 )
 sha256sums=(
-  'SKIP'
-  'SKIP'
   'SKIP'
   'SKIP'
   'SKIP'

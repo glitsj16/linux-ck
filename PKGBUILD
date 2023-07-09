@@ -62,7 +62,7 @@ _subarch=
 
 ### IMPORTANT: Do no edit below this line unless you know what you're doing
 pkgbase=linux-ck
-pkgver=6.4.1
+pkgver=6.4.2
 pkgrel=1
 arch=(x86_64)
 url="https://wiki.archlinux.org/index.php/Linux-ck"
@@ -155,7 +155,7 @@ prepare() {
 
   # build bbrv2 module
   scripts/config --module CONFIG_TCP_CONG_BBR2
-  
+
   # these are ck's htrimer patches
   echo "Patching with ck hrtimer patches..."
 

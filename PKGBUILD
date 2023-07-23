@@ -87,11 +87,7 @@ source=(
   config
   "more-uarches-${_gcc_more_v}.tar.gz::https://github.com/graysky2/kernel_compiler_patch/archive/${_gcc_more_v}.tar.gz"
   0001-ZEN-Add-sysctl-and-CONFIG-to-disallow-unprivileged-C.patch
-  0002-tpm-tpm_tis-Disable-interrupts-only-for-AEON-UPX-i11.patch
-  0003-tpm-tpm_tis-Disable-interrupts-for-Framework-Laptop-.patch
-  0004-tpm-tpm_tis-Disable-interrupts-for-Framework-Laptop-.patch
-  0005-tpm-tpm_tis-Disable-interrupts-for-Lenovo-L590-devic.patch
-  0006-Bluetooth-btusb-Fix-bluetooth-on-Intel-Macbook-2014.patch
+  0002-Bluetooth-btusb-Fix-bluetooth-on-Intel-Macbook-2014.patch
   ck-hrtimer-0001.patch
   ck-hrtimer-0002.patch
   ck-hrtimer-0003.patch
@@ -102,10 +98,6 @@ source=(
   ck-hrtimer-0008.patch
 )
 sha256sums=(
-  'SKIP'
-  'SKIP'
-  'SKIP'
-  'SKIP'
   'SKIP'
   'SKIP'
   'SKIP'
